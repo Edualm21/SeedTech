@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <h1>Calculadora Financeira</h1>
+  <h3> Informe o nível de ppm do CO2 atual</h3>
+  <input id="input_qntppm" type="text">
+  <button onclick="Calcularppm()">Calcular ppm</button>
+  <h3>Insira a quantidade de mudas plantadas</h3>
+  <input id="input_plantadas" type="text">
+  <br>
+  <h3>Insira a quantidade de mudas perdidas devido ao monitoramento inadequado de CO2</h3>
+  <input id="input_perdidas" type="text">
+  <h3>Insira a quantidade de mudas vendidas</h3>
+  <input id="input_vendas" type="text">
+  <h3>Insira o valor de cada muda</h3>
+  <input id="input_muda" type="text">
+  <button onclick="Calcular()" >Calcular</button>
+  <div id="div_mensagem"></div>
+
+  
+</body>
+</html>
+<script>
+function Calcularppm(){
+  var n1= Number(input_qntppm.value);
+
+  if (n1>1500){
+    div_mensagem.innerHTML = `<b style="color:red">Nível elevado de CO2. <br>
+      RISCO DE DANOS <br>
+      Necessidade de ventilação para evitar o acúmulo do gás  </b>`} 
+      else if ( n1 < 1500) {
+        div_mensagem.innerHTML = `<b style = "color:green"> Nível de CO2 adequado </b>`
+      }  else if (n1<600){
+    div_mensagem.innerHTML= `<b style="color:red">Nível de ppm abaixo do ideal. <br>
+      RISCO DE DANOS <br>
+      Necessidade de suplementação </b>`} 
+      
+   }
+
+
+function Calcular(){
+  var plantadas = Number(input_plantadas.value);
+  var perdidas = Number (input_perdidas.value);
+  var preço = Number (input_muda.value);
+  var vendas = Number (input_vendas.value);
+  var custo= plantadas * preço // valor total de produção
+  var receitaBruta = vendas * preço // valor obtido com as vendas 
+  var prejuízo = perdidas * preço // prejuízo devido as mudas perdidas
+  var totalLucro = receitaBruta - prejuízo //Lucro após perdas
+
+  if (totalLucro < 0){ // seria o prejuízo de não monitorar o co2 corretamente 
+    div_mensagem.innerHTML += `<b style = "color:red">Suas vendas foram totalizadas em ${receitaBruta} sendo MENORES que o custo de mudas perdidas, que equivale a ${prejuízo}. <br>
+      Prejuízo de ${totalLucro}.<br>
+      Se atente ao sistema de monitoramento </b>` 
+  } else {
+    div_mensagem.innerHTML += `<b style = "color:green"> Suas vendas foram totalizadas em ${receitaBruta} sendo MAIORES que o custo de mudas perdidas, que equivale a ${prejuízo}.<br>
+      Lucro total de ${totalLucro} </b>` //Lucro total, caso vendas > perdas
+  }
+}
+
+
+
+</script>
