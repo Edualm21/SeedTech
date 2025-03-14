@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora | Chronos</title>
+</head>
+
+<body>
+
+    <h2>Monitoramento de CO₂ em Viveiros de Café</h2>
+
+    Nome Empresa:
+    <input type="text" id="empresaInput"> <br><br>
+    Valor por muda:
+    <input type="number" id="valorInput"> <br><br>
+    Quantidade de mudas:
+    <input type="number" id="qtdMudasInput"> <br><br>
+    CO₂ médio:
+    <input type="number" id="co2Input"> <br><br>
+
+    <button onclick="Calcular()">Verificar</button>
+
+    <div id="div_lucro"></div>
+
+</body>
+
+</html>
+
+<script>
+    function Calcular() {
+        // Pegando os valores corretamente
+        var nome = empresaInput.value;
+        var co2 = Number(co2Input.value);
+        var qtdMudas = Number(qtdMudasInput.value);
+        var valorMuda = Number(valorInput.value);
+
+
+        div_lucro.innerHTML = `<b>Bem-vindo, ${nome}!</b><br>
+        <br>- O <b>CO₂ ideal</b> em viveiros de café é entre <b>600 e 1.200 ppm</b><br> 
+        - O <b>seu nível de CO₂</b> é de <b>${co2} ppm</b><br>`;
+
+        function exibirMenos() {
+            div_lucro.innerHTML += `<br><b>CO₂ baixo</b>, isso pode ocasionar uma <b>redução na fotossíntese</b> eB prejudicar o crescimento das mudas.<br>
+            <br>Segundo a fonte de pesquisa <b>EMBRAPA</b>, um nível inadequado de CO₂ pode afetar a produtividade do café.<br><br>`;
+        }
+
+        function exibirMais() {
+            div_lucro.innerHTML += `<br><b>CO₂ elevado</b>, isso pode ocasionar uma <b>redução na absorção de nutrientes</b> e afetar o desenvolvimento das plantas.<br>
+            <br>Segundo a fonte de pesquisa <b>EMBRAPA</b>, um nível excessivo de CO₂ pode comprometer a qualidade das mudas.<br><br>`;
+        }
+
+        function exibirIgual() {
+            div_lucro.innerHTML += `<br>- Seu <b>CO₂ está adequado</b> ao ambiente e <b>com a nossa solução garantimos ao nosso cliente que ele não terá prejuízo no futuro</b>,
+            caso o CO₂ venha a <b>oscilar</b> sem um monitoramento adequado.
+            A produtividade pode ser maximizada garantindo um melhor retorno financeiro.<br>`;
+        }
+        
+
+        function calcularLucro() {
+            var perdaPercentual = 0.15; // Exemplo de 15% de perda
+            var perdaMudas = qtdMudas * perdaPercentual;
+            var mudasRestantes = qtdMudas - perdaMudas;
+            var lucroFinal = mudasRestantes * valorMuda;
+
+            div_lucro.innerHTML += `<br>- Se a gestão do CO₂ for otimizada, a perda pode ser reduzida e o lucro estimado é de <b style="color: green;">R$${lucroFinal}</b>.<br>`;
+        }
+
+
+         if (co2 < 600) {
+            exibirMenos();
+            calcularLucro();
+          } else if (co2  <= 1200) {
+            exibirIgual();
+            calcularLucro();
+        } else if (co2 > 1200) {
+            exibirMais();
+            calcularLucro();
+        }
+    }
+</script>
