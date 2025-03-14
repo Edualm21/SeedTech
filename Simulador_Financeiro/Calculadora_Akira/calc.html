@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<Div id="div_start">
+<h1>Calculadora Financeira para excesso ou falta de CO² em viveiros de café</h1>
+<br><br>
+<h3>Você sabe a importância do controle de CO² em viveiros de café e em seu processo de plantação?</h3>
+<button onclick="bt_co_n()">Não</button>
+</div>
+<div>
+<h3>Qual a produção mensal de café em quilos?</h3> 
+<br><input type="text" id="ipt_prod">KG
+<br>
+<br>
+<h3>Qual o preço médio da venda desse café em quilos?</h3>
+<br>R$<input type="text" id="ipt_prec_med">
+<br>
+<br>
+<h3>Qual o preço médio do valor da compra das mudas de café?</h3>
+<br>R$<input type="text" id="ipt_prec_muda">
+<br>
+<h3>Quantas mudas ou plantas você possui neste viveiro?</h3>
+<input type="text" id="ipt_ideal">
+<br><br>
+<h3>Você possuí algum controle do CO² no local?</h3>
+<button onclick="bt_co()">Sim</button> <button onclick="bt_coN()">Não</button>
+</Div>
+<div id="div_co_sim">
+</div>
+<div id="div_calculo">
+
+</div>
+<div id="div_final">
+</div>
+</body>
+</html>
+<script>
+    function bt_co_n(){
+        div_start.innerHTML=`
+<br><br>
+<h3>Você conhece sabe a importancia do controle de CO² em viveiros de café e em seu processo de plantação?</h3>
+<p>O dióxido de carbono (CO²) estimula a fotossíntese e o crescimento da planta quando
+encontrado de forma equilibrada com outros componentes essenciais para o seu
+pleno desenvolvimento, como nutrientes, água, solo e outros gases
+Diante disso, com a falta de CO² nos viveiros, a planta não consegue realizar a
+fotossíntese de maneira eficiente, comprometendo a produção de energia necessária
+para seu crescimento, causando problemas adversos como, prejudicar os
+mecanismos de resistência da planta pois ocorre uma alteração na sua composição,
+as mudas não conseguem produzir luz o suficiente para crescer, suas folhas e caules
+ficam menores e menos vigorosos e suas substâncias de defesa diminuem, o que por
+sua vez, as torna propensas a ataques de insetos e pragas, levando a um grande
+prejuízo financeiro devido a rápida e grande propagação das doenças favorecendo a
+perca de inúmeras mudas de café e o aumento dos custos com produtos para
+controlar as pragas.</p>
+<p>O contrário também é válido, quando em excesso, o dióxido de carbono intensifica a
+fotossíntese das plantas, entretanto um crescimento rápido e desequilibrado reduz a
+absorção de nutrientes podendo levar ao seu atrofiamento e a tornando menos
+resistentes a fatores externos.</p>
+<p>Ademais, com a alta demanda de CO² o metabolismo da planta acelera e assim ela
+apresenta dificuldade em absorver outro gás essencial para seu desenvolvimento,
+sendo nesse caso, o Nitrogênio que é primordial para o crescimento de folhas
+saudáveis e fortalecimento da planta, contribuindo com a formação de proteínas e
+clorofila, sem ele as plantas passam a ter folhas mais finas e frágeis, o que as torna
+menos resistente a condições ambientais como ventos, altas temperaturas etc e
+suscetíveis a pragas e doenças.</p>
+<p>Em suma, o equilíbrio do dióxido de carbono (CO²) dentro dos viveiros é essencial para
+o crescimento saudável das mudas, quando encontrado em níveis insuficientes ou em
+excesso, pode prejudicar a resistência das plantas, a tornando mais vulneráveis a
+ataques de pragas e consequentemente, causa prejuízos financeiros pela perda de
+mudas, atraso na comercialização pelo crescimento lento da muda quando ela não
+tem componentes suficientes necessários para se desenvolver e custos para lidar com
+a propagação de pragas.</p>`
+    }
+
+
+    function bt_co(){
+        div_co_sim.innerHTML=`   
+    <br>
+    <h3>Qual a média atual de CO² dentro do viveiro?</h3>
+    <input type="text" id="ipt_medCO">
+
+      <h3> Quantos quilos/sacas de café você já perdeu devido ao CO² inadequado no mês?    </h3>
+      <input type="text" id="ipt_perca">
+
+      <button onclick="calc_sim()">Calcular</button>`
+    }
+    function bt_coN(){
+        div_co_sim.innerHTML=`<h3>Você já percebeu sinais de desidratação ou perda de qualidade?</h3>
+<br><button onclick="bt_sim_desi()">Sim</button><button onclick="calc_nn()">Não</button>
+<br>
+`}
+    function bt_sim_desi(){      div_co_sim.innerHTML+=`<br><button onclick="calc_nao()">Calcular</button>`
+
+    }
+    function bt_calc_nn(){
+         div_co_sim.innerHTML+=`<br><button onclick="calc_naonao()">Calcular</button>`
+    }
+    
+    function calc_sim() {
+    var prod_Mensal = Number(ipt_prod.value);
+    var preco_Venda = Number(ipt_prec_med.value);
+    var preco_Mudas = Number(ipt_prec_muda.value);
+    var qtd_Mudas = Number(ipt_ideal.value);
+    var perdaKg = Number(ipt_perca.value);
+
+    var ideal = qtd_Mudas * 12.5;
+    var receitaEstimada = prod_Mensal * preco_Venda;
+    var perda_estimada = preco_Venda * perdaKg;
+    var prod_final = prod_Mensal - perdaKg;
+
+    div_final.innerHTML = `
+        <p>Receita estimada sem problemas de CO²: R$${receitaEstimada}</p>
+        <p>Perda financeira estimada: R$${perda_estimada}</p>
+        <p>Quantidade ideal de CO² no viveiro: ${ideal} ppm</p>
+        <p>Produção estimada após perdas devido ao CO² inadequado: ${prod_final} kg (perda de ${perdaKg} kg)</p>
+        <p>O a receita final é R$${receitaEstimada-perda_estimada} porém sem os prejuízos poderia ser R$${receitaEstimada}(prejuizo de R$${perda_estimada})`
+
+    }
+function calc_nao() {
+    var prod_Mensal = Number(ipt_prod.value);
+    var preco_Venda = Number(ipt_prec_med.value);
+    var preco_Mudas = Number(ipt_prec_muda.value);
+    var qtd_Mudas = Number(ipt_ideal.value);
+    
+    var perdaKg = prod_Mensal * 0.15; // Perda de 15% da produção
+    var ideal = qtd_Mudas * 12.5;
+    var receitaEstimada = prod_Mensal * preco_Venda;
+    var prod_final = prod_Mensal - perdaKg;
+    var perda_estimada =preco_Venda * perdaKg;
+
+    div_final.innerHTML = `
+        <p>Receita estimada sem problemas de CO²: R$${receitaEstimada}</p>
+        <p>Perda financeira estimada: R$${perda_estimada}</p>
+        <p>Quantidade ideal de CO² no viveiro: ${ideal} ppm</p>
+        <p>Produção estimada após perdas devido ao CO² inadequado: ${prod_final} kg (perda de ${perdaKg} kg)</p>
+        <p>O a receita final é R$${receitaEstimada-perda_estimada} porém sem os prejuízos poderia ser R$${receitaEstimada}(prejuizo de R$${perda_estimada})
+    `
+}
+
+function calc_nn() {
+    var prod_Mensal = Number(ipt_prod.value);
+    var preco_Venda = Number(ipt_prec_med.value);
+    var preco_Mudas = Number(ipt_prec_muda.value);
+    var qtd_Mudas = Number(ipt_ideal.value);
+    
+    var perdaKg = prod_Mensal * 0.15; 
+    var ideal = qtd_Mudas * 12.5;
+    var receitaEstimada = prod_Mensal * preco_Venda;
+    var prod_final = prod_Mensal - perdaKg;
+    var perda_estimada =preco_Venda * perdaKg;
+
+    div_final.innerHTML = `
+        <p>Por conta da falta de dados informados, o valor pode ter uma margem maior de erro</p>
+        <p>Receita estimada sem problemas de CO²: R$${receitaEstimada}</p>
+        <p>Perda financeira estimada: R$${perda_estimada}</p>
+        <p>Quantidade ideal de CO² no viveiro: ${ideal} ppm</p>
+        <p>Produção estimada após perdas devido ao CO² inadequado: ${prod_final} kg (perda de ${perdaKg} kg)</p>
+        <p>O a receita final é R$${receitaEstimada-perda_estimada} porém sem os prejuízos poderia ser R$${receitaEstimada}(prejuizo de R$${perda_estimada})
+    `
+}
+</script>
