@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="div_inicio">
+        <b>informe o nome da empresa:</b><br>
+        <input type="text" id="input_name"><br><br>
+        <b>informe o comprimento do viveiro (em metros)</b><br>
+        <input type="number" id="input_comprimento"><br><br>
+        <b>informe a largura do viveiro (em metros)</b><br>
+        <input type="number" id="input_largura"><br><br>
+        <b>informe a altura do viveiro (em metros)</b><br>
+        <input type="number" id="input_altura"><br>
+        <button onclick="iniciarCalc()">Iniciar</button>
+        
+    </div>
+
+    <div id="div_qntMudas"></div>
+    <div id="div_fimCalc"></div>
+</body>
+</html>
+
+<script>
+    
+    alert("Olá, esse site irá coletar informações temporariamente, fique tranquilo(a).");
+    alert("vamos começar verificando o nível de CO² dentro da sua estufa ok? mas antes preencha os dados que serão solicitados abaixo:")
+   
+    //variaveis globais que serão usadas durante todo processo de calculo
+    var nomeEmpresa = "";
+    var comprimento = 0;
+    var largura = 0;
+    var altura = 0;
+    // verificando o volume dessa estufa
+    var volume = 0;
+    //verificar quantidade de gas CO² necessário na estufa
+    var qntGasNecessario = 0;
+    //armazenando valor e quantidade de mudas.
+    var mudas = 0;
+    var precoMudas = 0;
+
+    //veriaveis quantidade de gas e gastos
+    var gasPorMuda = 0;
+    var gastosMudas = 0;
+
+    //armazenar valor da venda das mudas
+    var venda = 0;
+
+    function iniciarCalc(){
+        //coletando dados do usuario
+        nomeEmpresa = input_name.value;
+        comprimento = Number(input_comprimento.value);
+        largura = Number(input_largura.value);
+        altura = Number(input_altura.value);
+        volume = comprimento * largura * altura;
+        qntGasNecessario = volume * 1000 * 0.001;
+
+        //verificando se os campos estão vazio antes de ir para a proxima ação;
+        if(comprimento <= 0){
+            alert(`Por gentileza ${nomeEmpresa}, preencha o campo comprimento!`)
+        }else{
+            if(largura <= 0){
+                alert(`Por gentileza ${nomeEmpresa}, preencha o campo largura!`)
+            }else{
+                if(altura <= 0){
+                    alert(`Por gentileza ${nomeEmpresa}, preencha o campos altura!`)
+                }else{
+                    if(nomeEmpresa == ''){
+                        alert("Por favor, preencha o campo: nome da empresa!")
+                    }else{
+                        div_inicio.innerHTML = " ";
+                        div_qntMudas.innerHTML = `  
+                            <p>Perfeito coletamos algumas informações da estufa da empresa <b>${nomeEmpresa}</b></p>
+                            <b>Informe agora a quantidade de mudas que pretende plantar abaixo:</b><br>
+                            <input type="number" id="input_mudas"><br>
+                            <b>Informe o preço de cada muda em (R$):</b>
+                            <input type="number" id="input_precoMudas"><br>
+                            <button onclick="analiseMudas()">adicionar</button>
+                        `;
+                    }
+                }
+            }
+            
+        }
+    }
+
+    function analiseMudas(){
+        mudas = Number(input_mudas.value);
+        precoMudas = Number(input_precoMudas.value);
+        gasPorMuda = mudas * 0.5;
+        gastosMudas = mudas * precoMudas;
+
+        div_qntMudas.innerHTML = `
+            Hije empresa ${nomeEmpresa}, tem capacidade para armazenar ${qntGasNecessario}Litros de CO²,
+            porém a quantidade de CO² necessária por dia para ${mudas} mudas de café, seria de ${gasPorMuda}Litros de CO²
+            para o crescimento saudavel das mudas.
+            atualmente seu gasto em mudas de café foram de R$${gastosMudas}.<br>
+            Informe o valor que sua empresa revende as mudas:
+            <input type="number" id="input_venda"><br>
+            <button onclick="avanco()">avançar</button>
+        `;
+    }
+
+    function avanco(){
+        venda = Number(input_venda.value);
+        div_qntMudas.innerHTML = `
+            <br>Informe abaixo a quantidade de CO² em sua estufa atualmente:
+            <input type="number" id="input_qntCO2">
+            <button onclick="fimCalculo()">Enviar</button>
+        `;
+    }
+    function fimCalculo(){
+        var qntCO2 = Number(input_qntCO2.value);
+        var gasPorSemana = 7 * gasPorMuda;
+        var espacoPorMuda = 0.25;   
+        var quantidadeMudas = volume / espacoPorMuda;
+        var totalPrecoMudas = quantidadeMudas * precoMudas;
+        var gasPorMudaEspaco = quantidadeMudas * 0.5;
+
+        // excesso de CO²
+        var excessoCO2 = qntCO2 - gasPorMuda;
+
+        // definindo taxa de perda (pode ser ajustada)
+        var taxaPerda = 0.0001; // 1% de perda por CO² excedente por muda
+
+        var mudasPerdidas = excessoCO2 * taxaPerda * quantidadeMudas;
+
+        var percentualAumento = ((qntCO2 - gasPorMuda) / gasPorMuda) * 100;
+
+        if(qntCO2 > gasPorMuda){
+            div_fimCalc.innerHTML = `
+                Quantidade de CO² na estufa: <b style="color: yellow">${qntCO2}</b> Litros<br>
+                Necessário por dia <b style="color: yellow">${gasPorMuda}</b> Litros de CO² para as ${mudas} mudas;<br>
+                Em uma semana seria necessário: <b style="color: yellow">${gasPorSemana}</b> Litros de CO²<br><br>
+
+                <b style="color: red">Risco!</b> Excesso de <b style="color: yellow">CO²</b> detectado!<br><br>
+
+                 O percentual de CO² disponível a mais na estufa em relação ao necessário é de ${percentualAumento}% .<br>
+                
+                Devido ao excesso de CO², você pode perder aproximadamente ${mudasPerdidas} mudas devido ao estresse causado por essa condição.<br><br>
+
+                Estrutura Estufa:<br>
+                Comprimento (em metros): <b style="color: blue">${comprimento}</b><br>
+                Largura (em metros): <b style="color: blue">${largura}</b><br>
+                Altura (em metros): <b style="color: blue">${altura}</b><br>
+                Estufa é capaz de armazenar: ${qntGasNecessario} Litros de CO²<br><br>
+
+                Considerando que seu viveiro de ${volume} m³ <br>
+                (comprimento: ${comprimento}m, largura: ${largura}m, altura: ${altura}m)<br>
+                você pode plantar aproximadamente ${quantidadeMudas} mudas de café, tendo um investimento de R$${totalPrecoMudas}.<br><br>
+                
+                O CO² necessário por dia para o crescimento saudável dessas ${quantidadeMudas} mudas é de ${gasPorMudaEspaco} Litros.<br>
+                
+            `;
+        }
+
+    }
+</script>
