@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculadora</title>
+</head>
+
+<body>
+    <center>
+
+        <div id="div_calculadora">
+            <h1>Calculadora</h1>
+
+            <div>
+                <h2>Você monitora o uso de CO2 na sua estufa?</h2>
+
+                <button onclick="btn_monitoramentoS()">
+                    sim
+                </button>
+
+                <button onclick="btn_monitoramentoN()">
+                    não
+                </button>
+
+
+            </div>
+
+            <!-- <div>
+                    <br>
+                    <h2>Qual é o nível de CO2 padrão da sua estufa? (em PPM) 
+                    </h2>
+                    <input type="text" id="input_nivelCO2">
+                </div> -->
+
+            <!-- 
+                <div>
+                    <h2>Qual é o número de mudas cultivadas anualmente?</h2>
+                    <input type="text" id="input_numeroMudasAno">
+
+                </div>
+
+                    <div>
+                    <h2>Quanto você ganha anualmente com suas vendas de mudas?</h2>
+                    <input type="text" id="input_numeroCustoMudasAno">
+
+                </div>
+
+
+                <div>
+                    <button onclick="prever_monitoramento()">prever monitoramento</button>
+                </div>
+
+                <div id="div_mensagens">
+
+                    <p id="p_mensagens"></p>
+
+                </div>
+            </div> -->
+
+    </center>
+
+
+
+</body>
+
+</html>
+
+<script>
+
+
+    //caso aperte o primeiro botão não
+    function btn_monitoramentoN() {
+
+        div_calculadora.innerHTML += `<div>
+                    <h2>Qual é o seu número de mudas cultivadas anualmente?</h2>
+                    <input type="text" id="input_numeroMudasAno">
+
+                </div>
+
+                    <div>
+                    <h2>Quanto você ganha anualmente com suas vendas de mudas?</h2>
+                    <input type="text" id="input_numeroCustoMudasAno">
+
+                </div>
+
+                <br>
+
+
+                <div>
+                    <button onclick="prever_monitoramento()">prever monitoramento</button>
+                </div>
+
+                <div id="div_mensagens">
+
+                    <p id="p_mensagens"></p>
+
+                </div>
+            </div> `
+
+    }
+
+    //caso aperte o primeiro botão sim
+    function btn_monitoramentoS() {
+        div_calculadora.innerHTML += `
+            <div>
+
+                    <h2>Qual é o nível de CO2 padrão da sua estufa? (em PPM) 
+                    </h2>
+                    <input type="text" id="input_nivelCO2">
+
+                    <br>
+                    <br>
+
+                    <button onclick="btn_verificarMonitoramento()">Verificar Monitoramento</button>
+
+                </div>
+    	`
+
+
+    }
+
+    function btn_verificarMonitoramento() {
+
+        var nivelCO2 = Number(input_nivelCO2.value)
+
+        if (nivelCO2 >= 1200) {
+            if (nivelCO2 <= 1500) {
+                div_calculadora.innerHTML += `
+            <div>
+                <br>
+                <h3>
+                    O nível de CO2 adequado é de 1.200 a 1.500ppm,<br>Vamos ver qual o peso do monitoramento correto
+                </h3>
+            </div>
+        `
+
+                btn_monitoramentoN()
+
+            }
+
+        }
+
+
+        if (nivelCO2 > 1500) {
+            div_calculadora.innerHTML += `
+            <div>
+                <h3>
+                    O nível de CO2 adequado é de 1.200 a 1.500ppm, o seu está muito elevado<br>Vamos ver qual o peso do monitoramento correto
+                </h3>
+            </div>
+        `
+
+            btn_monitoramentoN()
+
+        }
+
+        if (nivelCO2 < 1200) {
+            div_calculadora.innerHTML += `
+            <div>
+                <h3>
+                    O nível de CO2 adequado é de 1.200 a 1.500ppm, o seu está muito abaixo<br>Vamos ver qual o peso do monitoramento correto
+                </h3>
+            </div>
+        `
+
+            btn_monitoramentoN()
+
+        }
+
+
+
+
+
+    }
+
+    //calculos com o monitoramento adequado
+    function prever_monitoramento() {
+
+
+        //coleta de dados
+
+        var numeroMudasAno = Number(input_numeroMudasAno.value)
+
+        var ganhoMudasAno = Number(input_numeroCustoMudasAno.value)
+
+
+        //calculos
+
+
+        //se o cliente pode aumentar 20% do que ele ganha e produz então..
+
+        var numeroMudasAnoMonitorado = numeroMudasAno * 1.2
+
+        var ganhoMudasAnoMonitorado = ganhoMudasAno * 1.2
+
+
+
+        //exibir mensagem
+
+        p_mensagens.innerHTML = `Com o monitoramento adequado de CO2 em suas estufas pode aumentar a sua produtividade em cerca de 20%<br>assim saindo de <u><b>${numeroMudasAno}</b></u> para gerar <u><b>
+        ${numeroMudasAnoMonitorado}</b></u> mudas no ano e também aumentando seu lucro de <u><b>R$${ganhoMudasAno}</b></u> para <u><b>R$${ganhoMudasAnoMonitorado}</b></u><br><br>Ou seja <u><b>${numeroMudasAnoMonitorado - numeroMudasAno}</b></u> de mudas a mais no ano e com aumento de <u><b>${ganhoMudasAnoMonitorado - ganhoMudasAno}</b></u> de lucro por ano`
+
+    }
+
+
+
+
+
+
+</script>
